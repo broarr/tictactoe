@@ -36,7 +36,6 @@
 #define SPACE 32
 #define ENTER 10
 
-#define CURSOR '.' 
 #define BOARD_HEIGHT 5
 #define BOARD_WIDTH 11
 
@@ -288,7 +287,7 @@ void print_win(game_t *game, screen_t *screen) {
 	const char *draw = "DRAW";
 
 	const char *msg1 = NULL;
-	const char *msg2 = "Press any key to exit\n\n";
+	const char *msg2 = "Press any key to exit";
 
 	switch (game->winner) {
 		case PLAYER1_WIN:
@@ -306,19 +305,19 @@ void print_win(game_t *game, screen_t *screen) {
 	}
 
 	int left_pad1 = (screen->width / 2) - (strlen(msg1) / 2);
-	int left_pad2 = (screen->width / 2) - ((strlen(msg2) - 2) / 2);
+	int left_pad2 = (screen->width / 2) - (strlen(msg2) / 2);
 
 	/**
 	 * TODO (BNR): We recalculate this value in a couple of places, and
 	 *             it has some magic numbers, consider making this a part
 	 *             of the screen_t struct.
 	 */
-	int top_padding = (screen->height / 2) - 3;
+	int top_padding = (screen->height / 2) - (BOARD_HEIGHT / 2);
 
 	
 	printf("\033[%d;%dH%s",
 		top_padding + 6, left_pad1, msg1);
-	printf("\033[%d;%dH%s",
+	printf("\033[%d;%dH%s\n\n",
 		top_padding + 7, left_pad2, msg2);
 }
 
@@ -351,8 +350,8 @@ void game_draw(game_t *game, screen_t *screen) {
 	 */
 	printf("\033[?25l\033[2J\033[0;0H");
 
-	int top_padding = (screen->height / 2) - 3;
-	int left_padding = (screen->width / 2) - 5;
+	int top_padding = (screen->height / 2) - (BOARD_HEIGHT / 2);
+	int left_padding = (screen->width / 2) - (BOARD_WIDTH / 2);
 
 	printf("\033[%d;%dH", top_padding, left_padding);
 	printf(" ");
